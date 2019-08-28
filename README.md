@@ -1,4 +1,5 @@
-# contact-manager
+# Contact Manager
+
 Contact Manager Project that does Cool Stuffs
 
 ## Database

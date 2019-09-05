@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+
+  db:
+    build:
+      context: ./database
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_DATABASE: contact-manager
+      MYSQL_ROOT_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231

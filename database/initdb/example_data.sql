@@ -1,0 +1,4 @@
+/*
+    This is where we would add SQL insert commands
+    to insert fake data for our application
+*/

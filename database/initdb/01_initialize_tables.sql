@@ -19,15 +19,22 @@
         - Password (String Hash)
         - Email Address (String)
         - image_path (String)
-   3.) UsersContacts
-        - id (Integer, Primary Key)
-        - user_id (Integer, Foreign Key)
-        - contact_id (Ingeger, Foreign Key)
 */
+
+CREATE TABLE Users (
+     id int(11) NOT NULL AUTO_INCREMENT,
+     Username varchar(255) NOT NULL,
+     Password varchar(255) NOT NULL,
+     EmailAddress varchar(255) NOT NULL,
+     AvatarPath varchar(255) NOT NULL,
+     PRIMARY KEY (id)
+);
 
 CREATE TABLE Contacts (
     id int(11) NOT NULL AUTO_INCREMENT,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
+    UserID int(11) NOT NULL,
+    FOREIGN KEY(UserID) REFERENCES Users (id),
     PRIMARY KEY (id)
 );

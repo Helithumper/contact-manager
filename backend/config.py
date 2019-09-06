@@ -1,12 +1,17 @@
+import os
+
 class BaseConfig(object):
     DEBUG = False
     TESTING = False
-
+    DATABASE_URL = os.getenv('DATABASE_URL') or 'db'
+    DATABASE_USER = os.getenv('DATABASE_USER') or 'root'
+    DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD') or 'password'
+    DATABASE_DB = os.getenv('DATABASE_DB') or 'contact-manager'
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     TESTING = True
-    DATABASE_URL = 'db'
-    DATABASE_USER = 'root'
-    DATABASE_PASSWORD = 'cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231'
-    DATABASE_DB = 'contact-manager'
+    DATABASE_URL = os.getenv('DATABASE_URL') or 'db'
+    DATABASE_USER = os.getenv('DATABASE_USER') or 'root'
+    DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD') or 'password'
+    DATABASE_DB = os.getenv('DATABASE_DB') or 'contact-manager'

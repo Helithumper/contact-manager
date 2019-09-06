@@ -36,6 +36,7 @@ CREATE TABLE Contacts (
     id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
+    PhoneNumber varchar(255) NOT NULL,
     UUID varchar(255) NOT NULL UNIQUE, 
     UserID int(11) NOT NULL,
     FOREIGN KEY(UserID) REFERENCES Users (id),

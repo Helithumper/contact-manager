@@ -42,12 +42,12 @@ def users_put():
     #TODO:  Implement user update / changes
     return "Update User"
 
-@app.route('/api/users/<uuid:str>', methods = ['GET'])
+@app.route('/api/users', methods = ['GET'])
 @users.login_required
-def users_specific(uuid):
-    """Get all data about a specified user"""
-    #TODO: If you're an admin, you can view other users' info (email, username, image)
-    return str(uuid)
+@users.is_admin
+def all_users():
+    """Get data about all users"""
+    return jsonify(users.get_users())
 
 @app.route('/api/contacts', methods = ['GET'])
 @users.login_required

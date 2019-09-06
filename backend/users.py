@@ -35,6 +35,15 @@ def register(username, password, email):
 
         return authenticate(username, password)
 
+def get_users():
+    db = get_db()
+
+    with db.cursor() as cursor:
+        cursor.execute("SELECT Username, EmailAddress, isAdmin, UUID from Users")
+        users = cursor.fetchall()
+
+    return users
+
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):

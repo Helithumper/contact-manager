@@ -22,18 +22,21 @@
 */
 
 CREATE TABLE Users (
-     id int(11) NOT NULL AUTO_INCREMENT,
-     Username varchar(255) NOT NULL,
+     id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+     Username varchar(255) NOT NULL UNIQUE,
      Password varchar(255) NOT NULL,
-     EmailAddress varchar(255) NOT NULL,
-     AvatarPath varchar(255) NOT NULL,
+     EmailAddress varchar(255) NOT NULL UNIQUE,
+     isAdmin BOOLEAN NOT NULL,
+     UUID varchar(255) NOT NULL UNIQUE,
+     AvatarPath varchar(255),
      PRIMARY KEY (id)
 );
 
 CREATE TABLE Contacts (
-    id int(11) NOT NULL AUTO_INCREMENT,
+    id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
     FirstName varchar(255) NOT NULL,
     LastName varchar(255) NOT NULL,
+    UUID varchar(255) NOT NULL UNIQUE, 
     UserID int(11) NOT NULL,
     FOREIGN KEY(UserID) REFERENCES Users (id),
     PRIMARY KEY (id)

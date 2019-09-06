@@ -2,6 +2,9 @@ FROM python:3.7.4-alpine
 LABEL maintainer "Peyton Duncan <pduncan@hackucf.org>"
 EXPOSE 5000
 
+RUN apk add --update alpine-sdk
+RUN apk add --no-cache libffi-dev
+
 # Install Dependencies
 COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app

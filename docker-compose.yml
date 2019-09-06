@@ -12,3 +12,25 @@ services:
     environment:
       MYSQL_DATABASE: contact-manager
       MYSQL_ROOT_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231
+    networks:
+      - db-network
+  
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231
+    networks:
+      - db-network
+
+# volumes:
+#   backend
+networks:
+  db-network:

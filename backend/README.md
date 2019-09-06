@@ -37,29 +37,3 @@
 `PATCH /api/contacts/<uuid:str>`
 
 - Update a specified contact
-
-## Data Structures
-
-### User
-
-```json
-{
-    id: 'uuid',
-    first_name: 'firstname',
-    last_name: 'lastname',
-    date_created: datetime
-}
-```
-
-### Contact
-
-```json
-{
-    id: 'uuid',
-    first_name: 'firstname',
-    last_name: 'lastname',
-    date_created: datetime,
-    email_address: 'email',
-    phone_number: '1234567890',
-}
-```

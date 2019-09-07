@@ -1,11 +1,15 @@
 from database import get_db
 from flask import session, Response
+import json
 from functools import wraps
 import pymysql
 import bcrypt
 import uuid
 
+DB_FIELDS_NONSTATIC = ['Username','Password','isAdmin','AvatarPath']
+
 def authenticate(username, password):
+    """Authenticate users, return user information"""
     db = get_db()
 
     with db.cursor() as cursor:
@@ -19,7 +23,7 @@ def authenticate(username, password):
         return None
 
 def register(username, password, email):
-
+    """Register new users"""
     db = get_db()
     password_hashed = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
 
@@ -36,6 +40,7 @@ def register(username, password, email):
         return authenticate(username, password)
 
 def get_users():
+    """Enumerate users (admins only)"""
     db = get_db()
 
     with db.cursor() as cursor:
@@ -43,6 +48,41 @@ def get_users():
         users = cursor.fetchall()
 
     return users
+
+def get_user(uuid):
+    """get a specific user"""
+    db = get_db()
+
+    with db.cursor() as cursor:
+        cursor.execute("SELECT Username, EmailAddress, isAdmin, UUID from Users where UUID=%s", (uuid))
+        user = cursor.fetchone()
+    
+    return user
+
+def update(uuid, changes):
+    """Updates user with id uuid with their corresponding changes"""
+    user = get_user(uuid)
+
+    # Ensure field names are valid for processing
+    for field in changes.keys():
+        if field not in DB_FIELDS_NONSTATIC:
+            return Response(json.dumps({'error': f'Field name invalid: {field}'}), 422)
+
+    # Since we now know all fields are valid, put together the query
+    query = "UPDATE Users SET "
+    for field in changes.keys():
+        query += f"{field} = '{changes[field]}', "
+    query = query[:-2]
+    query += " WHERE Users.UUID=%s"
+
+    # Make the change in the database
+    db = get_db()
+    with db.cursor() as cursor:
+        cursor.execute(query, (uuid))
+    db.commit()
+
+    return Response('success',200)
+
 
 def login_required(f):
     @wraps(f)

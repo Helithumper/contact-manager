@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request, session
+import json
 
-import contacts
+from models import users, contacts
 import config
-import users
 
 app = Flask(__name__)
 
@@ -35,12 +35,12 @@ def register():
 
     return jsonify(user)
 
-@app.route('/api/users', methods = ['PATCH'])
+@app.route('/api/users/<uuid>', methods = ['PATCH'])
 @users.login_required
-def users_put():
-    """Update User fields"""
-    #TODO:  Implement user update / changes
-    return "Update User"
+def users_patch(uuid):
+    """Update User fields
+    """
+    return users.update(uuid, json.loads(request.data))
 
 @app.route('/api/users', methods = ['GET'])
 @users.login_required
@@ -64,10 +64,11 @@ def contacts_endpoint(uuid):
         return jsonify(contacts.get_user_contacts(uuid))
     elif request.method == 'DELETE':
         #TODO: Delete Contacts
+        user_uuid = session['UUID']
+        return jsonify(contacts.delete_contact(uuid, user_uuid))
         return "Delete Contact"
     elif request.method == 'PATCH':
-        #TODO: Update Contacts
-        return "Patch Contact"
+        return contacts.update(uuid, session['UUID'], json.loads(request.data))
     else:
         return "Method Undefined"
 

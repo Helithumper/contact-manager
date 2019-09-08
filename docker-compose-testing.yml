@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+
+  db:
+    build:
+      context: ./database
+      args:
+        DATABASE_NAME: contact-manager-testing
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_DATABASE: contact-manager-testing
+      MYSQL_ROOT_PASSWORD: root-test-password
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+    networks:
+      - db-network
+  
+  pytest-backend:
+    build:
+      context: ./backend
+    # ports:
+    #   - "127.0.0.1:5000:5000"
+    # volumes:
+    #   - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: db
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root-test-password
+      DATABASE_DB: contact-manager-testing
+    networks:
+      - db-network
+    entrypoint:
+      - pytest
+      - -v
+
+networks:
+  db-network:

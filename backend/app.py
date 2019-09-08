@@ -29,11 +29,11 @@ def logout():
 
 @app.route('/register', methods = ['POST'])
 def register():
-    user = users.register(request.form['username'],
+    user_response = users.register(request.form['username'],
                           request.form['password'],
                           request.form['email'])
 
-    return jsonify(user)
+    return user_response
 
 @app.route('/api/users/<uuid>', methods = ['PATCH'])
 @users.login_required
@@ -80,12 +80,17 @@ def create_contact():
     return "New Contact"
 
 
-if __name__ == '__main__':
-    app.config.from_object('config.DevelopmentConfig')
+def create_app(running_config=config.DevelopmentConfig):
+    app.config.from_object(running_config)
 
     from database import init_app
     init_app(app)
 
     app.secret_key = b'1234j1p23j41p2i3h4ocugc1kj23c4sdfASDFA12cv3'
 
+    return app
+    # app.run(host='0.0.0.0', port=5000)
+
+if __name__ == "__main__":
+    app = create_app()
     app.run(host='0.0.0.0', port=5000)

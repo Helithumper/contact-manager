@@ -14,20 +14,12 @@ services:
     environment:
       MYSQL_DATABASE: contact-manager-testing
       MYSQL_ROOT_PASSWORD: root-test-password
-    healthcheck:
-            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-            timeout: 20s
-            retries: 10
     networks:
       - db-network
   
   pytest-backend:
     build:
       context: ./backend
-    # ports:
-    #   - "127.0.0.1:5000:5000"
-    # volumes:
-    #   - ./backend:/app
     depends_on:
       - db
     environment:
@@ -38,8 +30,7 @@ services:
     networks:
       - db-network
     entrypoint:
-      - pytest
-      - -v
+      - ./test.sh
 
 networks:
   db-network:

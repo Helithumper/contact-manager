@@ -36,6 +36,10 @@ def update(contactUUID, userUUID, changes):
     """Updates user with id uuid with their corresponding changes"""
     users_contacts = get_user_contacts(userUUID)
     
+    # If there are no contacts, they can't update anything...
+    if len(users_contacts) == 0:
+        return make_response('contact not found',404)
+        
     # Check to ensure the contactUUID exists for this user
     contact = next(filter(lambda x: x['UUID'] == contactUUID, users_contacts))
     if contact is None:

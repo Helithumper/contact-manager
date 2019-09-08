@@ -3,6 +3,7 @@ attrs==19.1.0
 bcrypt==3.1.7
 cffi==1.12.3
 Click==7.0
+coverage==4.5.4
 Flask==1.1.1
 importlib-metadata==0.20
 itsdangerous==1.1.0
@@ -17,6 +18,7 @@ pycparser==2.19
 PyMySQL==0.9.3
 pyparsing==2.4.2
 pytest==5.1.2
+pytest-cov==2.7.1
 pytest-flask==0.15.0
 six==1.12.0
 validate-email==1.3

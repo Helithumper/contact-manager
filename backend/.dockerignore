@@ -3,3 +3,5 @@
 !requirements.txt
 !tests/*
 !models/*
+!.coveragerc
+!test.sh

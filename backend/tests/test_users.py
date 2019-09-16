@@ -1,5 +1,9 @@
 from models import users
 import pytest
+import json
+
+# Length of a standard UUID
+UUID_LENGTH = 36
 
 def test_pytest_operational():
     assert 1
@@ -49,14 +53,46 @@ def test_login_user(username, password, status_code, client):
         if status_code == 200:
             assert session['username'] == username
             assert session['isAdmin'] == False
-            assert len(session['UUID']) == 36 # Length of UUID4
+            assert len(session['UUID']) == UUID_LENGTH
         else:
             assert list(session.keys()) == []
 
-# def test_logout_user(username, password, client):
+def test_logout_user(client):
+    # Login as an admin
+    data = {
+        'username': 'regular',
+        'password': 'password'
+    }
+    res = client.post('/login', data=data)
+    assert res.status_code == 200
 
-def test_get_all_users():
-    assert 1
+    # See if session is created
+    with client.session_transaction() as session:
+        assert session['username'] == 'regular'
+        assert session['isAdmin'] == False
+        assert len(session['UUID']) == UUID_LENGTH
+
+    # Logout
+    res = client.get('/logout')
+    assert res.status_code == 200
+    
+    # Ensure session is gone
+    with client.session_transaction() as session:
+        assert list(session.keys()) == []
+
+def test_get_all_users(client):
+    data = {
+        'username': 'admin',
+        'password': 'password'
+    }
+    res = client.post('/login', data=data)
+    assert res.status_code == 200 
+    
+    res = client.get('/api/users')
+    assert res.status_code == 200
+
+    assert res.text != ""
+    json_doc = json.loads(res.text)
 
 def test_get_specific_user():
     assert 1

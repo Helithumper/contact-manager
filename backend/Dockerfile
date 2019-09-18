@@ -1,6 +1,3 @@
-# Insert React build step here
-# Once built, put into /public
-
 # Backend Building and Deployment
 FROM python:3.7.4-alpine
 LABEL maintainer "Peyton Duncan <pduncan@hackucf.org>"

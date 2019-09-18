@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+
+  db:
+    build:
+      context: ./database
+      args:
+        DATABASE_NAME: contact-manager
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_DATABASE: contact-manager
+      MYSQL_ROOT_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231
+    networks:
+      - db-network
+  
+  backend:
+    build:
+      context: ./backend
+    restart: always
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: db
+      DATABASE_USER: root
+      DATABASE_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231
+      DATABASE_DB: contact-manager 
+    networks:
+      - db-network
+      - frontend-backend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-dev
+    restart: always
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - db
+      - backend
+    networks:
+      - frontend-backend
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+# volumes:
+#   backend
+networks:
+  db-network:
+  frontend-backend:

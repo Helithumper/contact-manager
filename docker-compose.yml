@@ -34,8 +34,21 @@ services:
       DATABASE_DB: contact-manager 
     networks:
       - db-network
+      - frontend-backend
 
+  frontend:
+    build:
+      context: ./frontend
+    restart: always
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - db
+      - backend
+    networks:
+      - frontend-backend
 # volumes:
 #   backend
 networks:
   db-network:
+  frontend-backend:

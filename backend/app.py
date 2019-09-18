@@ -6,7 +6,7 @@ import config
 
 app = Flask(__name__)
 
-@app.route('/login', methods = ['POST'])
+@app.route('/api/v1/login', methods = ['POST'])
 def login():
     """Replies with a session cookie"""
     user = users.authenticate(request.form['username'], request.form['password'])
@@ -19,7 +19,7 @@ def login():
         return "Authentication Failed", 401
 
 
-@app.route('/logout', methods = ['GET'])
+@app.route('/api/v1/logout', methods = ['GET'])
 def logout():
     """Deauths the session cookie"""
     username = session.pop('username',None)
@@ -35,28 +35,28 @@ def register():
 
     return user_response
 
-@app.route('/api/users/<uuid>', methods = ['PATCH'])
+@app.route('/api/v1/users/<uuid>', methods = ['PATCH'])
 @users.login_required
 def users_patch(uuid):
     """Update User fields
     """
     return users.update(uuid, json.loads(request.data))
 
-@app.route('/api/users', methods = ['GET'])
+@app.route('/api/v1/users', methods = ['GET'])
 @users.login_required
 @users.is_admin
 def all_users():
     """Get data about all users"""
     return jsonify(users.get_users())
 
-@app.route('/api/contacts', methods = ['GET'])
+@app.route('/api/v1/contacts', methods = ['GET'])
 @users.login_required
 def contacts_get():
     """Gets current user's contacts"""
     # return jsonify(contacts.get_all_contacts())
     return jsonify(contacts.get_user_contacts(session['UUID']))
 
-@app.route('/api/contacts/<uuid>', methods = ['GET', 'DELETE', 'PATCH'])
+@app.route('/api/v1/contacts/<uuid>', methods = ['GET', 'DELETE', 'PATCH'])
 @users.login_required
 def contacts_endpoint(uuid):
     """Modify contacts"""
@@ -72,7 +72,7 @@ def contacts_endpoint(uuid):
     else:
         return "Method Undefined"
 
-@app.route('/api/contacts', methods = ['PUT'])
+@app.route('/api/v1/contacts', methods = ['PUT'])
 @users.login_required
 def create_contact():
     """Create a new contact"""

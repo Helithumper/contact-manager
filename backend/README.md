@@ -2,38 +2,43 @@
 
 ## Endpoints
 
-`POST /login`
+`POST /api/v1/login`
 
 - Replies with a session cookie
 
-`POST /logout`
+`GET /api/v1/logout`
 
 - Deauths the session cookie
 
-`GET /api/users`
+`GET /api/v1/users`
 
-- Probably not needed
+- Only works for admins
+- Get all users
 
-`GET /api/users/<uuid:str>`
+`PATCH /api/v1/users/<uuid:str>`
 
-- Get all data about a specified user
+- Update information about the current user.
 
-`PUT /api/users`
+`POST /api/v1/register`
 
 - Create a user
 
-`GET /api/contacts/<uuid:str>`
+`GET /api/v1/contacts`
 
-- Get specified contacts (all if none specified)
+- Gets the current user's contacts (based on session)
 
-`PUT /api/contacts`
+`GET /api/v1/contacts/<uuid:str>`
 
-- Create a new contact
+- Get specified contacts
 
-`DELETE /api/contacts/<uuid:str>`
+`DELETE /api/v1/contacts/<uuid:str>`
 
-- Delete a specified contact (Actually just marks as unactive in DB)
+- Delete specified contact
 
-`PATCH /api/contacts/<uuid:str>`
+`PATCH /api/v1/contacts/<uuid:str>`
 
-- Update a specified contact
+- Update specified contact
+
+`PUT /api/v1/contacts`
+
+- Create a new contact belonging to the user who this is created by

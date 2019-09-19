@@ -1,3 +1,5 @@
+include .env
+export $(shell sed 's/=.*//' .env)
 
 docker-up:
 	@docker-compose rm -f

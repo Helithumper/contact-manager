@@ -80,7 +80,7 @@ def create_contact():
     return "New Contact"
 
 
-def create_app(running_config=config.DevelopmentConfig):
+def create_app(running_config=config.BaseConfig):
     app.config.from_object(running_config)
 
     from database import init_app

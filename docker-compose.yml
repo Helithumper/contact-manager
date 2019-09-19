@@ -9,11 +9,14 @@ services:
         DATABASE_NAME: contact-manager
     restart: always
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./database_data:/var/lib/mysql
     ports:
-      - "127.0.0.1:3306:3306"
+      - 3306
     environment:
+      MYSQL_HOST: localhost
       MYSQL_DATABASE: contact-manager
-      MYSQL_ROOT_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
     networks:
       - db-network
   
@@ -21,16 +24,16 @@ services:
     build:
       context: ./backend
     restart: always
-    ports:
-      - "127.0.0.1:5000:5000"
     volumes:
       - ./backend:/app
     depends_on:
       - db
+    ports:
+      - 5000:5000
     environment:
       DATABASE_URL: db
       DATABASE_USER: root
-      DATABASE_PASSWORD: cf03a9bd7c7a7310ba15fe02eceb87ee04e7d40f89a5bea14a07bf56a2f42231
+      DATABASE_PASSWORD: "${DB_PASSWORD}"
       DATABASE_DB: contact-manager 
     networks:
       - db-network
@@ -47,8 +50,8 @@ services:
       - backend
     networks:
       - frontend-backend
-# volumes:
-#   backend
+
+
 networks:
   db-network:
   frontend-backend:

@@ -50,6 +50,16 @@ services:
       - frontend-backend
     volumes:
       - ./frontend/src:/usr/src/app/src
+  nginx:
+    build:
+      context: ./nginx-dev
+    restart: always
+    ports:
+      - "127.0.0.1:80:8080"
+    depends_on:
+      - frontend
+    networks:
+      - frontend-backend
 # volumes:
 #   backend
 networks:

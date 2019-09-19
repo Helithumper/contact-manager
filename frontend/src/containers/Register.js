@@ -20,7 +20,9 @@ const styles = theme => ({
         width: '75%',
     },
     fieldRow: {
-        margin: '8',
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        // width: '30%',
     },
     button: {
         margin: '5%',
@@ -84,7 +86,7 @@ class Login extends React.Component {
                     <img id="logo" src="/logo.png" alt="Contacts!" className={classes.logo} />
                     <Card className={classes.root}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Sign in to your account
+                            Create your account
                         </Typography>
                         <form>
                             <TextField
@@ -96,7 +98,32 @@ class Login extends React.Component {
                                 value={this.state.value}
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />
-                            <br />
+                            <TextField
+                                id='email'
+                                label='Email Address'
+                                variant='outlined'
+                                type="email"
+                                margin="normal"
+                                fullWidth
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
+                            <TextField
+                                id='firstName'
+                                label='First Name'
+                                variant='outlined'
+                                margin="normal"
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
+                            <TextField
+                                id='lastName'
+                                label='Last Name'
+                                variant='outlined'
+                                margin="normal"
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
                             <TextField
                                 id='password'
                                 label='Password'
@@ -107,22 +134,13 @@ class Login extends React.Component {
                                 value={this.state.value}
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />
-                            <br />
                             <Button
                                 variant='contained'
                                 color='primary'
                                 size='large'
                                 className={classes.button}
                                 onClick={this.handleSubmit}>
-                                Sign In
-                        </Button>
-                            <Button
-                                variant='contained'
-                                color='secondary'
-                                size='large'
-                                className={classes.button}
-                                onClick={this.handleRegister}>
-                                Register
+                                Create Account
                         </Button>
                         </form>
                         <Snackbar

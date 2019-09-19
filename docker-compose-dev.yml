@@ -5,7 +5,6 @@ services:
   db:
     build:
       context: ./database
-      dockerfile: Dockerfile-dev
       args:
         DATABASE_NAME: contact-manager
     restart: always

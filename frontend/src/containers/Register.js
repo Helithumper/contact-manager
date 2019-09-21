@@ -29,13 +29,21 @@ const styles = theme => ({
     }
 })
 
-const login_url = '/api/v1/login'
+const register_url = '/api/v1/register'
 
 class Login extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', errorMessage: '' };
+        this.state = {
+            username: '',
+            password: '', 
+            password_confirm: '', 
+            firstname: '', 
+            lastname: '', 
+            email: '',
+            errorMessage: ''
+        };
         // this.classes = useStyles();
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,13 +68,19 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
+        if (this.state.password !== this.state.password_confirm) {
+            this.setState({'errorMessage': 'Passwords do not match'})
+        }
         let bodyFormData = new FormData();
         bodyFormData.append('username', this.state.username)
         bodyFormData.append('password', this.state.password)
+        bodyFormData.append('email', this.state.email)
+        bodyFormData.append('firstName', this.state.firstname)
+        bodyFormData.append('lastName', this.state.lastname)
 
         axios({
             method: 'POST',
-            url: login_url,
+            url: register_url,
             data: bodyFormData,
             config: { headers: { 'Content-Type': 'multipart/form-data' } }
         })
@@ -74,7 +88,7 @@ class Login extends React.Component {
                 document.location = '/home'
             })
             .catch((response) => {
-                this.setState({ 'errorMessage': 'Incorrect username or password.' })
+                this.setState({ 'errorMessage': 'Error in user creation' })
             })
     }
 
@@ -109,7 +123,27 @@ class Login extends React.Component {
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />
                             <TextField
-                                id='firstName'
+                                id='password'
+                                label='Password'
+                                type='password'
+                                margin="normal"
+                                fullWidth
+                                variant='outlined'
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
+                            <TextField
+                                id='password_confirm'
+                                label='Confirm Password'
+                                type='password'
+                                margin="normal"
+                                fullWidth
+                                variant='outlined'
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
+                            <TextField
+                                id='firstname'
                                 label='First Name'
                                 variant='outlined'
                                 margin="normal"
@@ -117,20 +151,10 @@ class Login extends React.Component {
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />
                             <TextField
-                                id='lastName'
+                                id='lastname'
                                 label='Last Name'
                                 variant='outlined'
                                 margin="normal"
-                                value={this.state.value}
-                                className={classes.fieldRow}
-                                onChange={e => { this.handleChange(e) }} />
-                            <TextField
-                                id='password'
-                                label='Password'
-                                type='password'
-                                margin="normal"
-                                fullWidth
-                                variant='outlined'
                                 value={this.state.value}
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />

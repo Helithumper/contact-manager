@@ -24,6 +24,8 @@
 CREATE TABLE Users (
      id int(11) NOT NULL AUTO_INCREMENT UNIQUE,
      Username varchar(255) NOT NULL UNIQUE,
+     FirstName varchar(255) NOT NULL,
+     LastName varchar(255) NOT NULL,
      Password varchar(255) NOT NULL,
      EmailAddress varchar(255) NOT NULL UNIQUE,
      isAdmin BOOLEAN NOT NULL,

@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
 import TablePaginationActions from '@material-ui/core/TablePagination/TablePaginationActions';
+import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -69,6 +70,7 @@ class Login extends React.Component {
             config: { headers: { 'Content-Type': 'multipart/form-data' } }
         })
             .then((response) => {
+                Cookies.set('username', this.state.username)
                 document.location = '/home'
             })
             .catch((response) => {
@@ -86,7 +88,7 @@ class Login extends React.Component {
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                             Sign in to your account
                         </Typography>
-                        <form>
+                        <form onSubmit={this.handleSubmit}>
                             <TextField
                                 id='username'
                                 label='Username'
@@ -94,6 +96,7 @@ class Login extends React.Component {
                                 margin="normal"
                                 fullWidth
                                 value={this.state.value}
+                                onSubmit={this.handleSubmit}
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />
                             <br />
@@ -105,7 +108,9 @@ class Login extends React.Component {
                                 fullWidth
                                 variant='outlined'
                                 value={this.state.value}
+                                onSubmit={this.handleSubmit}
                                 className={classes.fieldRow}
+                                onSubmit={this.handleSubmit}
                                 onChange={e => { this.handleChange(e) }} />
                             <br />
                             <Button

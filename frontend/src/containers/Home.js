@@ -42,6 +42,7 @@ class Home extends React.Component {
 
         return (
             <ContactsListPane contacts={this.state.contacts}
+                selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}/>
         )
     }

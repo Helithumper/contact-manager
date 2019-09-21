@@ -4,7 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from '@material-ui/core/ListItemText';
 
 const ContactsList = (props) => {
-    const {contacts, selectedContactUUID, setSelectedContactUUID} = props;
+    const {contacts, selectedContactUUID, setSelectedContactUUID, getContactDetails} = props;
 
     const handleListClick = (event, uuid) => {
         setSelectedContactUUID(uuid);

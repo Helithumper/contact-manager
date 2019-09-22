@@ -3,7 +3,8 @@ import { Paper, TextField, Button } from '@material-ui/core';
 
 const ContactView = (props) => {
     const {FirstName, LastName, Birthday, StreetAddress, City, 
-        StateName, PhoneNumber, Email, ZipCode, UUID, updateContactDetails} = props;
+        StateName, PhoneNumber, Email, ZipCode, UUID, updateContactDetails, 
+        saveContactUpdate} = props;
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditClick = () => {
@@ -16,6 +17,7 @@ const ContactView = (props) => {
         {
             // We need to save the edits
             setIsEditable(false);
+            saveContactUpdate();
         }
     }
 

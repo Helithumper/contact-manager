@@ -3,7 +3,7 @@ import ContactsListPane from './ContactsListPane';
 import axios from 'axios';
 import ContactView from '../components/ContactView';
 
-const getContactsURL = '/api/v1/contacts';
+const contactsURL = '/api/v1/contacts';
 const checkLoginURL = '/api/v1/login/check';
 
 class Home extends React.Component {
@@ -44,7 +44,7 @@ class Home extends React.Component {
         // Get all their contacts
         axios({
             method: 'GET',
-            url: getContactsURL
+            url: contactsURL
         })
         .then(response => {
             console.log(response.data);
@@ -69,7 +69,7 @@ class Home extends React.Component {
         const getContactDetails = () => {
             axios({
                 method: 'GET',
-                url: getContactsURL+"/"+this.state.selectedContactUUID
+                url: contactsURL+"/"+this.state.selectedContactUUID
             })
             .then(response => {
                 this.setState({
@@ -94,8 +94,52 @@ class Home extends React.Component {
         }
 
         const updateContactDetails = (field, newValue) => {
-            this.setState({...this.state, [field] : newValue
-        })};
+            this.setState({[field] : newValue})
+        };
+
+        const getAllContacts = () => {
+            // Get all their contacts
+            axios({
+                method: 'GET',
+                url: contactsURL
+            })
+            .then(response => {
+                console.log(response.data);
+                this.setState({
+                    contacts: response.data
+                });
+            })
+            .catch(response => {
+                this.setState({
+                    errorMessage: 'Oops. Something has gone wrong.'
+                })
+            });
+        }
+
+        const saveContactUpdate = () => {
+            axios({
+                method: 'PATCH',
+                url: contactsURL+`/${this.state.selectedContactUUID}`,
+                data: {
+                    FirstName : this.state.FirstName,
+                    LastName: this.state.LastName,
+                    Email : this.state.Email,
+                    PhoneNumber : this.state.PhoneNumber,
+                    StreetAddress : this.state.StreetAddress,
+                    City : this.state.City,
+                    StateName : this.state.StateName,
+                    ZipCode : this.state.ZipCode,
+                    Birthday : this.state.Birthday
+                }
+            })
+            .then(response => {
+                console.log(response);
+                getAllContacts();
+            })
+            .catch(response => {
+                this.setState({errorMessage : 'Oops. Something went wrong.'})
+            })
+        }
 
         return (
             <div>
@@ -104,7 +148,8 @@ class Home extends React.Component {
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}/>
             <ContactView {...this.state}
-                updateContactDetails={updateContactDetails}/>
+                updateContactDetails={updateContactDetails}
+                saveContactUpdate={saveContactUpdate}/>
             </div>
         )
     }

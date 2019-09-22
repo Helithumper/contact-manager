@@ -4,7 +4,7 @@ import { Paper, TextField, Button } from '@material-ui/core';
 const ContactView = (props) => {
     const {FirstName, LastName, Birthday, StreetAddress, City, 
         StateName, PhoneNumber, Email, ZipCode, UUID, updateContactDetails, 
-        saveContactUpdate} = props;
+        saveContactUpdate, deleteContact} = props;
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditClick = () => {
@@ -23,6 +23,11 @@ const ContactView = (props) => {
 
     const handleChange = name => event => {
         updateContactDetails(name, event.target.value)
+    }
+
+    const handleDeleteClick = () => {
+        setIsEditable(false);
+        deleteContact();
     }
 
     return(
@@ -84,7 +89,8 @@ const ContactView = (props) => {
             <Button variant='primary'
             onClick={handleEditClick}
             >{isEditable === false ? 'Edit' : 'Save' }</Button>
-            {isEditable ? <Button variant='primary'>Delete</Button> : ''}
+            {isEditable ? <Button variant='primary'
+                onClick={handleDeleteClick}>Delete</Button> : ''}
         </Paper>
     );
 }

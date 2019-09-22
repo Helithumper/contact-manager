@@ -141,6 +141,20 @@ class Home extends React.Component {
             })
         }
 
+        const deleteContact = () => {
+            axios({
+                method: 'DELETE',
+                url: `${contactsURL}/${this.state.selectedContactUUID}`
+            })
+            .then(response => {
+                console.log(response);
+                getAllContacts();
+            })
+            .catch(response => {
+                this.setState({errorMessage : 'Oops. Something went wrong.'})
+            })
+        }
+
         return (
             <div>
             <ContactsListPane contacts={this.state.contacts}
@@ -149,7 +163,8 @@ class Home extends React.Component {
                 getContactDetails={getContactDetails}/>
             <ContactView {...this.state}
                 updateContactDetails={updateContactDetails}
-                saveContactUpdate={saveContactUpdate}/>
+                saveContactUpdate={saveContactUpdate}
+                deleteContact={deleteContact}/>
             </div>
         )
     }

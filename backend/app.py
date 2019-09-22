@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, session, redirect
 import json
 
 from models import users, contacts
@@ -25,7 +25,7 @@ def logout():
     username = session.pop('username',None)
     session.pop('UUID',None)
     session.pop('isAdmin',None)
-    return username or ""
+    return redirect('/', code=302)
 
 @app.route('/api/v1/register', methods = ['POST'])
 def register():
@@ -102,7 +102,6 @@ def create_app(running_config=config.BaseConfig):
 
     app.secret_key = b'1234j1p23j41p2i3h4ocugc1kj23c4sdfASDFA12cv3'
     return app
-    # app.run(host='0.0.0.0', port=5000)
 
 if __name__ == "__main__":
     app = create_app()

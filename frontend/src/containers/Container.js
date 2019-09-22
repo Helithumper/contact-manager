@@ -11,21 +11,14 @@ function Container() {
     console.log(Cookies.get('session'))
     return (
         <Switch>
-            <PrivateRoute exact path="/" component={() => <Redirect to='/home' />} />
+            <Route exact path="/" component={() => <Redirect to='/home' />} />
             <Route exact path="/login" component={() => <Login />} />
-            <PrivateRoute path="/home" component={() => <Home />} />
+            <Route path="/home" component={() => <Home />} />
             <Route exact path="/register" component={() => <Register />} />
+            <Route exact path="/logout" component={() => window.location='/api/v1/logout'} />
         </Switch>
     );
 }
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={(props) => (
-        isAuthenticated() === true
-            ? <Component {...props} />
-            : <Redirect to='/login' />
-    )} />
-)
 
 
 export default Container;

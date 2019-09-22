@@ -4,6 +4,7 @@ import axios from 'axios';
 import ContactView from '../components/ContactView';
 
 const getContactsURL = '/api/v1/contacts';
+const checkLoginURL = '/api/v1/login/check';
 
 class Home extends React.Component {
     constructor(props) {
@@ -30,6 +31,20 @@ class Home extends React.Component {
     
 
     componentDidMount() {
+        // Check if the user is logged in
+
+        axios({
+            method: 'GET',
+            url: checkLoginURL
+        })
+        .then(response => {
+            console.log(response.status)
+        })
+        .catch(response => {
+            window.location = '/login'
+        })
+
+        // Get all their contacts
         axios({
             method: 'GET',
             url: getContactsURL

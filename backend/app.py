@@ -27,13 +27,27 @@ def logout():
     session.pop('isAdmin',None)
     return username or ""
 
-@app.route('/register', methods = ['POST'])
+@app.route('/api/v1/register', methods = ['POST'])
 def register():
     user_response = users.register(request.form['username'],
                           request.form['password'],
-                          request.form['email'])
+                          request.form['email'],
+                          request.form['firstName'],
+                          request.form['lastName'])
 
     return user_response
+
+@app.route('/api/v1/login/check', methods = ['GET'])
+def loginCheck():
+    """Used to check if a user's cookie is still valid
+    """
+    try:
+        if 'UUID' in session.keys():
+            return 'success', 200
+        else:
+            return 'forbidden', 403
+    except:
+        return 'forbidden', 403
 
 @app.route('/api/v1/users/<uuid>', methods = ['PATCH'])
 @users.login_required
@@ -87,7 +101,6 @@ def create_app(running_config=config.BaseConfig):
     init_app(app)
 
     app.secret_key = b'1234j1p23j41p2i3h4ocugc1kj23c4sdfASDFA12cv3'
-
     return app
     # app.run(host='0.0.0.0', port=5000)
 

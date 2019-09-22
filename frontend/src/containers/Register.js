@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
 import TablePaginationActions from '@material-ui/core/TablePagination/TablePaginationActions';
-import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -21,20 +20,30 @@ const styles = theme => ({
         width: '75%',
     },
     fieldRow: {
-        margin: '8',
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        // width: '30%',
     },
     button: {
         margin: '5%',
     }
 })
 
-const login_url = '/api/v1/login'
+const register_url = '/api/v1/register'
 
 class Login extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', errorMessage: '' };
+        this.state = {
+            username: '',
+            password: '', 
+            password_confirm: '', 
+            firstname: '', 
+            lastname: '', 
+            email: '',
+            errorMessage: ''
+        };
         // this.classes = useStyles();
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,22 +68,27 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
+        if (this.state.password !== this.state.password_confirm) {
+            this.setState({'errorMessage': 'Passwords do not match'})
+        }
         let bodyFormData = new FormData();
         bodyFormData.append('username', this.state.username)
         bodyFormData.append('password', this.state.password)
+        bodyFormData.append('email', this.state.email)
+        bodyFormData.append('firstName', this.state.firstname)
+        bodyFormData.append('lastName', this.state.lastname)
 
         axios({
             method: 'POST',
-            url: login_url,
+            url: register_url,
             data: bodyFormData,
             config: { headers: { 'Content-Type': 'multipart/form-data' } }
         })
             .then((response) => {
-                Cookies.set('username', this.state.username)
                 document.location = '/home'
             })
             .catch((response) => {
-                this.setState({ 'errorMessage': 'Incorrect username or password.' })
+                this.setState({ 'errorMessage': 'Error in user creation' })
             })
     }
 
@@ -86,9 +100,9 @@ class Login extends React.Component {
                     <img id="logo" src="/logo.png" alt="Contacts!" className={classes.logo} />
                     <Card className={classes.root}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Sign in to your account
+                            Create your account
                         </Typography>
-                        <form onSubmit={this.handleSubmit}>
+                        <form>
                             <TextField
                                 id='username'
                                 label='Username'
@@ -96,10 +110,18 @@ class Login extends React.Component {
                                 margin="normal"
                                 fullWidth
                                 value={this.state.value}
-                                onSubmit={this.handleSubmit}
                                 className={classes.fieldRow}
                                 onChange={e => { this.handleChange(e) }} />
-                            <br />
+                            <TextField
+                                id='email'
+                                label='Email Address'
+                                variant='outlined'
+                                type="email"
+                                margin="normal"
+                                fullWidth
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
                             <TextField
                                 id='password'
                                 label='Password'
@@ -108,26 +130,41 @@ class Login extends React.Component {
                                 fullWidth
                                 variant='outlined'
                                 value={this.state.value}
-                                onSubmit={this.handleSubmit}
                                 className={classes.fieldRow}
-                                onSubmit={this.handleSubmit}
                                 onChange={e => { this.handleChange(e) }} />
-                            <br />
+                            <TextField
+                                id='password_confirm'
+                                label='Confirm Password'
+                                type='password'
+                                margin="normal"
+                                fullWidth
+                                variant='outlined'
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
+                            <TextField
+                                id='firstname'
+                                label='First Name'
+                                variant='outlined'
+                                margin="normal"
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
+                            <TextField
+                                id='lastname'
+                                label='Last Name'
+                                variant='outlined'
+                                margin="normal"
+                                value={this.state.value}
+                                className={classes.fieldRow}
+                                onChange={e => { this.handleChange(e) }} />
                             <Button
                                 variant='contained'
                                 color='primary'
                                 size='large'
                                 className={classes.button}
                                 onClick={this.handleSubmit}>
-                                Sign In
-                        </Button>
-                            <Button
-                                variant='contained'
-                                color='secondary'
-                                size='large'
-                                className={classes.button}
-                                onClick={this.handleRegister}>
-                                Register
+                                Create Account
                         </Button>
                         </form>
                         <Snackbar

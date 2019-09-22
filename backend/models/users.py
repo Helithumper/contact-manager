@@ -21,8 +21,8 @@ def authenticate(username, password):
     db = get_db()
 
     with db.cursor() as cursor:
-        cursor.execute("""SELECT Username, Password, UUID, isAdmin
-                          FROM Users where Username=%s""",(username))
+        cursor.execute("""SELECT Users.Username, Users.Password, Users.UUID, Users.isAdmin
+                          FROM Users where Users.Username=%s""",(username))
         user = cursor.fetchone()
     
     if user and bcrypt.checkpw(password.encode('utf8'), user['Password'].encode('utf8')):
@@ -30,7 +30,7 @@ def authenticate(username, password):
     else:
         return None
 
-def register(username, password, email):
+def register(username, password, email, firstName, lastName):
     """Register new users"""
     db = get_db()
 
@@ -48,8 +48,8 @@ def register(username, password, email):
     with db.cursor() as cursor:
         user_uuid = str(uuid.uuid4())
         try:
-            cursor.execute("""INSERT INTO Users (Username, Password, EmailAddress, isAdmin, UUID)
-                            VALUES (%s, %s, %s, %s, %s)""", (username, password_hashed, email, False, user_uuid))
+            cursor.execute("""INSERT INTO Users (Users.Username, Users.FirstName, Users.LastName, Users.Password, Users.EmailAddress, Users.isAdmin, Users.UUID)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s)""", (username, firstName, lastName, password_hashed, email, False, user_uuid))
         except pymysql.err.IntegrityError:
             return make_response({'error': 'Invalid user'},200)
 

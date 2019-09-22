@@ -11,20 +11,18 @@ class Home extends React.Component {
         super(props);
         this.state = {
             contacts: [],
-            selectedContactUUID: '',
-            selectedContact: {
-                'FirstName': '',
-                'LastName': '',
-                'PhoneNumber': '',
-                'Email': '',
-                'StreetAddress': '',
-                'City': '',
-                'StateName': '',
-                'ZipCode': '',
-                'Birthday': '',
-                'UUID': '',
-            },
-            errorMessage: ''
+            UUID: '',
+            FirstName: '',
+            LastName: '',
+            PhoneNumber: '',
+            Email: '',
+            StreetAddress: '',
+            City: '',
+            StateName: '',
+            ZipCode: '',
+            Birthday: '',
+            errorMessage: '',
+            selectedContactUUID : ''
         }
     }
     
@@ -75,18 +73,16 @@ class Home extends React.Component {
             })
             .then(response => {
                 this.setState({
-                    selectedContact: {
-                        'FirstName': response.data.FirstName,
-                        'LastName': response.data.LastName,
-                        'PhoneNumber': response.data.PhoneNumber,
-                        'Email': response.data.Email,
-                        'StreetAddress': response.data.StreetAddress,
-                        'City': response.data.City,
-                        'StateName': response.data.StateName,
-                        'ZipCode': response.data.ZipCode,
-                        'Birthday': response.data.Birthday,
-                        'UUID': response.data.UUID,
-                    }
+                    FirstName: response.data.FirstName,
+                    LastName: response.data.LastName,
+                    PhoneNumber: response.data.PhoneNumber,
+                    Email: response.data.Email,
+                    StreetAddress: response.data.StreetAddress,
+                    City: response.data.City,
+                    StateName: response.data.StateName,
+                    ZipCode: response.data.ZipCode,
+                    Birthday: response.data.Birthday,
+                    UUID: response.data.UUID,
                 })
                 console.log(response);
             })
@@ -97,13 +93,18 @@ class Home extends React.Component {
             })
         }
 
+        const updateContactDetails = (field, newValue) => {
+            this.setState({...this.state, [field] : newValue
+        })};
+
         return (
             <div>
             <ContactsListPane contacts={this.state.contacts}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}/>
-            <ContactView selectedContact={this.state.selectedContact}/>
+            <ContactView {...this.state}
+                updateContactDetails={updateContactDetails}/>
             </div>
         )
     }

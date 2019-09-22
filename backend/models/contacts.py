@@ -44,7 +44,21 @@ def delete_contact(UUID, userUUID):
     Delete a UUID, but only if it is owned by the specified user
     or the user is an admin
     """
-    return ""
+    db = get_db()
+
+    try:
+        with db.cursor() as cursor:
+            cursor.execute("""SELECT id FROM Users WHERE Users.UUID=%s""",(userUUID))
+            user = cursor.fetchone()
+            userID = user['id']
+            cursor.execute("""DELETE 
+                            FROM Contacts
+                            WHERE Contacts.UUID=%s
+                            AND Contacts.UserID=%s""",(UUID, userID))
+            cursor.commit()
+            return "success"
+    except:
+        return "error"
 
 def update(contactUUID, userUUID, changes):
     """Updates user with id uuid with their corresponding changes"""

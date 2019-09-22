@@ -67,22 +67,19 @@ def all_users():
 @users.login_required
 def contacts_get():
     """Gets current user's contacts"""
-    # return jsonify(contacts.get_all_contacts())
     return jsonify(contacts.get_user_contacts(session['UUID']))
 
 @app.route('/api/v1/contacts/<uuid>', methods = ['GET', 'DELETE', 'PATCH'])
 @users.login_required
 def contacts_endpoint(uuid):
     """Modify contacts"""
+    user_uuid = session['UUID']
     if request.method == 'GET':
-        return jsonify(contacts.get_user_contacts(uuid))
+        return jsonify(contacts.get_specified_contact(uuid, user_uuid))
     elif request.method == 'DELETE':
-        #TODO: Delete Contacts
-        user_uuid = session['UUID']
         return jsonify(contacts.delete_contact(uuid, user_uuid))
-        return "Delete Contact"
     elif request.method == 'PATCH':
-        return contacts.update(uuid, session['UUID'], json.loads(request.data))
+        return contacts.update(uuid, user_uuid, json.loads(request.data))
     else:
         return "Method Undefined"
 
@@ -104,5 +101,5 @@ def create_app(running_config=config.BaseConfig):
     return app
 
 if __name__ == "__main__":
-    app = create_app()
+    app = create_app(running_config=config.TestingConfig)
     app.run(host='0.0.0.0', port=5000)

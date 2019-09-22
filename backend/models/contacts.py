@@ -23,7 +23,21 @@ def get_user_contacts(userUUID):
                           ON Contacts.UserID=Users.id
                           WHERE Users.UUID=%s""", (userUUID))
         contacts = cursor.fetchall()
-    return contacts
+    return contacts or []
+
+
+def get_specified_contact(contactUUID, userUUID):
+    db = get_db()
+
+    with db.cursor() as cursor:
+        cursor.execute("""SELECT Contacts.FirstName, Contacts.LastName, Contacts.UUID 
+                          FROM Contacts
+                          INNER JOIN Users
+                          ON Contacts.UserID=Users.id
+                          WHERE Users.UUID=%s
+                          AND Contacts.UUID=%s""", (userUUID, contactUUID))
+        contacts = cursor.fetchone()
+    return contacts or {}
 
 def delete_contact(UUID, userUUID):
     """

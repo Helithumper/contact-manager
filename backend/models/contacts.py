@@ -2,9 +2,12 @@ from database import get_db
 from flask import make_response
 import json
 
-DB_FIELDS_NONSTATIC = ['FirstName','LastName']
+DB_FIELDS_NONSTATIC = ['FirstName','LastName', 'PhoneNumber','Email','StreetAddress','City','StateName','ZipCode','Birthday']
 
 def get_all_contacts():
+    """
+    Get all contacts in the database
+    """
     db = get_db()
 
     with db.cursor() as cursor:
@@ -14,6 +17,9 @@ def get_all_contacts():
     return contacts
 
 def get_user_contacts(userUUID):
+    """
+    Get all contacts owned by the user
+    """
     db = get_db()
 
     with db.cursor() as cursor:
@@ -27,6 +33,9 @@ def get_user_contacts(userUUID):
 
 
 def get_specified_contact(contactUUID, userUUID):
+    """
+    Attempt to retrieve a contact owned by a user.
+    """
     db = get_db()
 
     with db.cursor() as cursor:

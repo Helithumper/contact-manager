@@ -13,32 +13,34 @@ def test_DB_FIELDS_NONSTATIC_set():
     assert len(nonstatic) > 0
 
 @pytest.mark.parametrize(
-    'username, password, email, status_code', [
-        ('kanna','dragon','kanna@dragon.com', 200),
-        ('','dragon','kanna@dragon.com', 422),
-        ('kanna','','kanna@dragon.com', 422),
-        ('kanna','dragon','', 422),
-        ('','','', 422),
-        ('kanna','dragon','kannadragon', 422)
+    'username, password, email, firstname, lastname, status_code', [
+        ('kanna','dragon','kanna@dragon.com', 'kanna','dragon', 200),
+        ('','dragon','kanna@dragon.com', 'kanna','dragon',422),
+        ('kanna','','kanna@dragon.com', 'kanna','dragon',422),
+        ('kanna','dragon','', 'kanna','dragon',422),
+        ('','','', 'kanna','dragon',422),
+        ('kanna','dragon','kannadragon', 'kanna','dragon',422)
     ]
 )
-def test_register_user(username, password, email, status_code, client):
+def test_register_user(username, password, email, firstname, lastname, status_code, client):
     data = {
         'username': username,
         'password': password,
-        'email': email
+        'email': email,
+        'firstName': firstname,
+        'lastName': lastname
     }
-    res = client.post('/register', data=data)
+    res = client.post('/api/v1/register', data=data)
     assert res.status_code == status_code
 
 @pytest.mark.parametrize(
     'username, password, status_code', [
-        ('kanna','dragon',200),
+        ('test','password',200),
         ('','',401),
         ('','dragon',401),
-        ('kanna','',401),
+        ('test','',401),
         ('annak','dragon',401),
-        ('kanna','car',401),
+        ('test','car',401),
     ]
 )
 def test_login_user(username, password, status_code, client):
@@ -46,7 +48,7 @@ def test_login_user(username, password, status_code, client):
         'username': username,
         'password': password
     }
-    res = client.post('/login', data=data)
+    res = client.post('/api/v1/login', data=data)
     assert res.status_code == status_code
 
     with client.session_transaction() as session:
@@ -63,7 +65,7 @@ def test_logout_user(client):
         'username': 'regular',
         'password': 'password'
     }
-    res = client.post('/login', data=data)
+    res = client.post('/api/v1/login', data=data)
     assert res.status_code == 200
 
     # See if session is created
@@ -73,8 +75,8 @@ def test_logout_user(client):
         assert len(session['UUID']) == UUID_LENGTH
 
     # Logout
-    res = client.get('/logout')
-    assert res.status_code == 200
+    res = client.get('/api/v1/logout')
+    assert res.status_code == 302
     
     # Ensure session is gone
     with client.session_transaction() as session:
@@ -85,14 +87,14 @@ def test_get_all_users(client):
         'username': 'admin',
         'password': 'password'
     }
-    res = client.post('/login', data=data)
+    res = client.post('/api/v1/login', data=data)
     assert res.status_code == 200 
     
-    res = client.get('/api/users')
+    res = client.get('/api/v1/users')
     assert res.status_code == 200
 
-    assert res.text != ""
-    json_doc = json.loads(res.text)
+    assert res.data != ""
+    json_doc = json.loads(res.data)
 
 def test_get_specific_user():
     assert 1

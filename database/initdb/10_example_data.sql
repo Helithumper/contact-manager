@@ -3,7 +3,7 @@
     to insert fake data for our application
 */
 INSERT INTO Users (Username, FirstName, LastName, Password, EmailAddress, isAdmin, UUID, AvatarPath) Values ('peyton', 'peyton','duncan','$2a$12$yEZM202oh8DWaB9I/DL.2OoNbCzUbeZfFL66WADnXQR6Ijizyl0Lq','pduncan@hackucf.org', TRUE, 'aab8d2fd-5f4f-408c-aff8-a69936e6283b', 'test.png');
-INSERT INTO Users (Username, FirstName, LastName, Password, EmailAddress, isAdmin, UUID, AvatarPath) Values ('test','test','mctest','$2a$12$yEZM202oh8DWaB9I/DL.2OoNbCzUbeZfFL66WADnXQR6Ijizyl0Lq','orsonh@gmail.com',TRUE, 'adf95622-1247-4380-98ff-8d72a00a9d3b', 'test.png');
+INSERT INTO Users (Username, FirstName, LastName, Password, EmailAddress, isAdmin, UUID, AvatarPath) Values ('test','test','mctest','$2a$12$yEZM202oh8DWaB9I/DL.2OoNbCzUbeZfFL66WADnXQR6Ijizyl0Lq','orsonh@gmail.com', FALSE, 'adf95622-1247-4380-98ff-8d72a00a9d3b', 'test.png');
 INSERT INTO Users (Username, FirstName, LastName, Password, EmailAddress, isAdmin, UUID, AvatarPath) Values ('admin','administrator','oftheworld','$2a$12$yEZM202oh8DWaB9I/DL.2OoNbCzUbeZfFL66WADnXQR6Ijizyl0Lq','admin@gmail.com',TRUE, '6d49b363-da9b-4a9a-90a5-1a1ba830fccd', 'test.png');
 INSERT INTO Users (Username, FirstName, LastName, Password, EmailAddress, isAdmin, UUID, AvatarPath) Values ('regular','regular','user','$2a$12$yEZM202oh8DWaB9I/DL.2OoNbCzUbeZfFL66WADnXQR6Ijizyl0Lq','regular@gmail.com',FALSE, '604dcdd66-836e-4cd1-b64e-9233fdc95b5', 'test.png');
 

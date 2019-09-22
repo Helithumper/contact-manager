@@ -8,7 +8,7 @@ def get_all_contacts():
     db = get_db()
 
     with db.cursor() as cursor:
-        cursor.execute('SELECT Contacts.FirstName, Contacts.LastName, UUID FROM Contacts')
+        cursor.execute('SELECT Contacts.FirstName, Contacts.LastName, Contacts.UUID, Contacts.PhoneNumber, Contacts.Email, Contacts.StreetAddress, Contacts.City, Contacts.City, Contacts.StateName, Contacts.ZipCode, Contacts.Birthday FROM Contacts')
         contacts = cursor.fetchall()
         
     return contacts
@@ -17,7 +17,7 @@ def get_user_contacts(userUUID):
     db = get_db()
 
     with db.cursor() as cursor:
-        cursor.execute("""SELECT Contacts.FirstName, Contacts.LastName, Contacts.UUID 
+        cursor.execute("""SELECT Contacts.FirstName, Contacts.LastName, Contacts.UUID, Contacts.PhoneNumber, Contacts.Email, Contacts.StreetAddress, Contacts.City, Contacts.City, Contacts.StateName, Contacts.ZipCode, Contacts.Birthday 
                           FROM Contacts
                           INNER JOIN Users
                           ON Contacts.UserID=Users.id
@@ -30,7 +30,7 @@ def get_specified_contact(contactUUID, userUUID):
     db = get_db()
 
     with db.cursor() as cursor:
-        cursor.execute("""SELECT Contacts.FirstName, Contacts.LastName, Contacts.UUID 
+        cursor.execute("""SELECT Contacts.FirstName, Contacts.LastName, Contacts.UUID, Contacts.PhoneNumber, Contacts.Email, Contacts.StreetAddress, Contacts.City, Contacts.City, Contacts.StateName, Contacts.ZipCode, Contacts.Birthday
                           FROM Contacts
                           INNER JOIN Users
                           ON Contacts.UserID=Users.id

@@ -13,17 +13,16 @@ class Home extends React.Component {
             contacts: [],
             selectedContactUUID: '',
             selectedContact: {
-                'FirstName': 'Jaiden',
-                'LastName': 'Couch',
-                'PhoneNumber': '4071234567',
-                'Email': 'Jaiden@ucf.edu',
-                'StreetAddress': '123 Knight way',
-                'City': 'Orlando',
-                'StateName': 'Florida',
-                'ZipCode': '32817',
-                'Birthday': '04/27/1995',
-                'UUID': 'f3c72950-5e97-4387-8383-ae8a383c3ddd',
-                'UserID': 1
+                'FirstName': '',
+                'LastName': '',
+                'PhoneNumber': '',
+                'Email': '',
+                'StreetAddress': '',
+                'City': '',
+                'StateName': '',
+                'ZipCode': '',
+                'Birthday': '',
+                'UUID': '',
             },
             errorMessage: ''
         }
@@ -72,14 +71,22 @@ class Home extends React.Component {
         const getContactDetails = () => {
             axios({
                 method: 'GET',
-                url: getContactsURL,
-                params: {
-                    uuid: this.state.selectedContactUUID
-                }
+                url: getContactsURL+"/"+this.state.selectedContactUUID
             })
             .then(response => {
                 this.setState({
-                    selectedContact: response.data
+                    selectedContact: {
+                        'FirstName': response.data.FirstName,
+                        'LastName': response.data.LastName,
+                        'PhoneNumber': response.data.PhoneNumber,
+                        'Email': response.data.Email,
+                        'StreetAddress': response.data.StreetAddress,
+                        'City': response.data.City,
+                        'StateName': response.data.StateName,
+                        'ZipCode': response.data.ZipCode,
+                        'Birthday': response.data.Birthday,
+                        'UUID': response.data.UUID,
+                    }
                 })
                 console.log(response);
             })

@@ -97,7 +97,7 @@ def create_app(running_config=config.BaseConfig):
     from database import init_app
     init_app(app)
 
-    app.secret_key = b'1234j1p23j41p2i3h4ocugc1kj23c4sdfASDFA12cv3'
+    app.secret_key = running_config.SECRET_KEY
     return app
 
 if __name__ == "__main__":

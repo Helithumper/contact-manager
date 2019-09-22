@@ -4,14 +4,23 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from '@material-ui/core/ListItemText';
 
 const ContactsList = (props) => {
-    const contacts = ["Fred", "Abigail", "Josh"]
+    const {contacts, selectedContactUUID, setSelectedContactUUID, getContactDetails} = props;
+
+    const handleListClick = (event, uuid) => {
+        setSelectedContactUUID(uuid);
+    }
     return(
         <List>
-            contacts.map((value) => (
-                <ListItem>
-                    {/* <ListItemText
-                        primary={value}/> */}
-                </ListItem>))
+            {contacts.map(value => {
+                return(
+                    <ListItem button 
+                        selected={value.UUID === selectedContactUUID}
+                        onClick={event => handleListClick(event, value.UUID)}
+                        key={value.UUID}>
+                        <ListItemText primary={`${value.FirstName} ${value.LastName}`}/>
+                    </ListItem>
+                );
+            })}
         </List>
     );
 };

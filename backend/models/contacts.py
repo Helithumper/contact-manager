@@ -64,10 +64,10 @@ def delete_contact(UUID, userUUID):
                             FROM Contacts
                             WHERE Contacts.UUID=%s
                             AND Contacts.UserID=%s""",(UUID, userID))
-            cursor.commit()
+            db.commit()
             return "success"
-    except:
-        return "error"
+    except Exception as e:
+        return str(e)
 
 def update(contactUUID, userUUID, changes):
     """Updates user with id uuid with their corresponding changes"""

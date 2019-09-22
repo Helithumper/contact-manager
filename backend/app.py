@@ -39,6 +39,8 @@ def register():
 
 @app.route('/api/v1/login/check', methods = ['GET'])
 def loginCheck():
+    """Used to check if a user's cookie is still valid
+    """
     try:
         if 'UUID' in session.keys():
             return 'success', 200

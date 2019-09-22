@@ -1,57 +1,88 @@
 import React, { useState } from 'react';
-import { Paper, TextField } from '@material-ui/core';
+import { Paper, TextField, Button } from '@material-ui/core';
 
 const ContactView = (props) => {
-    const {selectedContact} = props;
+    const {FirstName, LastName, Birthday, StreetAddress, City, 
+        StateName, PhoneNumber, Email, ZipCode, UUID, updateContactDetails} = props;
     const [isEditable, setIsEditable] = useState(false);
+
+    const handleEditClick = () => {
+        if(isEditable === false)
+        {
+            // We now allow edits
+            setIsEditable(true);
+        }
+        else
+        {
+            // We need to save the edits
+            setIsEditable(false);
+        }
+    }
+
+    const handleChange = name => event => {
+        updateContactDetails(name, event.target.value)
+    }
 
     return(
         <Paper>
             <TextField variant='outlined'
             label='First Name'
-            value={selectedContact.FirstName}
-            disabled={!isEditable}
+            value={FirstName}
+            disabled={isEditable === false}
+            onChange={handleChange('FirstName')}
             />
             <TextField variant='outlined'
             label='Last Name'
-            value={selectedContact.LastName}
-            disabled={!isEditable}
+            value={LastName}
+            disabled={isEditable === false}
+            onChange={handleChange('LastName')}
             />
             <TextField variant='outlined'
             label='Phone Number'
-            value={selectedContact.PhoneNumber}
-            disabled={!isEditable}
+            value={PhoneNumber}
+            disabled={isEditable === false}
+            onChange={handleChange('PhoneNumber')}
             />
             <TextField variant='outlined'
             label='Email'
-            value={selectedContact.Email}
-            disabled={!isEditable}
+            value={Email}
+            disabled={isEditable === false}
+            onChange={handleChange('Email')}
             />
             <TextField variant='outlined'
             label='Street Address'
-            value={selectedContact.StreetAddress}
-            disabled={!isEditable}
+            value={StreetAddress}
+            disabled={isEditable === false}
+            onChange={handleChange('StreetAddress')}
             />
             <TextField variant='outlined'
             label='City'
-            value={selectedContact.City}
-            disabled={!isEditable}
+            value={City}
+            disabled={isEditable === false}
+            onChange={handleChange('City')}
             />
             <TextField variant='outlined'
             label='State'
-            value={selectedContact.StateName}
-            disabled={!isEditable}
+            value={StateName}
+            disabled={isEditable === false}
+            onChange={handleChange('StateName')}
             />
             <TextField variant='outlined'
             label='Zip Code'
-            value={selectedContact.ZipCode}
-            disabled={!isEditable}
+            value={ZipCode}
+            disabled={isEditable === false}
+            onChange={handleChange('ZipCode')}
             />
             <TextField variant='outlined'
             label='Birthday'
-            value={selectedContact.Birthday}
-            disabled={!isEditable}
+            value={Birthday}
+            disabled={isEditable === false}
+            onChange={handleChange('Birthday')}
             />
+            <Button variant='primary'
+            onClick={handleEditClick}
+            >{isEditable === false ? 'Edit' : 'Save' }</Button>
+            {isEditable ? <Button variant='primary'>Delete</Button> : ''}
         </Paper>
     );
 }

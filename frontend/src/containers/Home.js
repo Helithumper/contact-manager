@@ -242,7 +242,7 @@ class Home extends React.Component {
 
         return (
             <div>
-            <Search setSearchTerm={setSearchTerm}/>
+            <Search {...this.state} setSearchTerm={setSearchTerm}/>
             <Paper>
             <Button
                 onClick={handleNewContactClick}>

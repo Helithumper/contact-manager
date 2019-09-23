@@ -4,19 +4,21 @@ import { Paper, TextField, Button } from '@material-ui/core';
 const ContactView = (props) => {
     const {FirstName, LastName, Birthday, StreetAddress, City, 
         StateName, PhoneNumber, Email, ZipCode, UUID, updateContactDetails, 
-        saveContactUpdate, deleteContact} = props;
-    const [isEditable, setIsEditable] = useState(false);
+        saveContactUpdate, deleteContact, clearContactDetails, isEditable,
+        setIsEditable, isDeletable, setIsDeletable, isAdding, setIsAdding, createContact} = props;
 
     const handleEditClick = () => {
         if(isEditable === false)
         {
             // We now allow edits
             setIsEditable(true);
+            setIsDeletable(true);
         }
         else
         {
             // We need to save the edits
             setIsEditable(false);
+            setIsDeletable(false);
             saveContactUpdate();
         }
     }
@@ -27,7 +29,17 @@ const ContactView = (props) => {
 
     const handleDeleteClick = () => {
         setIsEditable(false);
+        setIsDeletable(false);
         deleteContact();
+        clearContactDetails();
+    }
+
+    const handleAddClick = () => {
+        setIsEditable(false);
+        setIsDeletable(false);
+        setIsAdding(false);
+        createContact();
+        clearContactDetails();
     }
 
     return(
@@ -86,11 +98,12 @@ const ContactView = (props) => {
             disabled={isEditable === false}
             onChange={handleChange('Birthday')}
             />
-            <Button variant='primary'
+            {isAdding ? '' : <Button variant='outlined'
             onClick={handleEditClick}
-            >{isEditable === false ? 'Edit' : 'Save' }</Button>
-            {isEditable ? <Button variant='primary'
+            >{isEditable ? 'Save' : 'Edit' }</Button>}
+            {isDeletable && !isAdding ? <Button variant='outlined'
                 onClick={handleDeleteClick}>Delete</Button> : ''}
+            {isAdding ? <Button variant='outlined' onClick={handleAddClick}>Add</Button> : ''}
         </Paper>
     );
 }

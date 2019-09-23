@@ -1,7 +1,9 @@
 import React from 'react';
-import ContactsListPane from './ContactsListPane';
 import axios from 'axios';
 import ContactView from '../components/ContactView';
+import { Paper, Button } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import ContactsList from '../components/ContactsList';
 
 const contactsURL = '/api/v1/contacts';
 const checkLoginURL = '/api/v1/login/check';
@@ -22,7 +24,10 @@ class Home extends React.Component {
             ZipCode: '',
             Birthday: '',
             errorMessage: '',
-            selectedContactUUID : ''
+            selectedContactUUID : '',
+            isEditable: false,
+            isDeletable: false,
+            isAdding: false
         }
     }
     
@@ -64,6 +69,18 @@ class Home extends React.Component {
             this.setState({
                 selectedContactUUID: uuid
             }, getContactDetails);
+        }
+
+        const setIsEditable = (val) => {
+            this.setState({isEditable: val})
+        }
+
+        const setIsDeletable = (val) => {
+            this.setState({isDeletable: val})
+        }
+        
+        const setIsAdding = (val) => {
+            this.setState({isAdding: val})
         }
 
         const getContactDetails = () => {
@@ -155,16 +172,77 @@ class Home extends React.Component {
             })
         }
 
+        const createContact = () => {
+            axios({
+                method: 'PUT',
+                url: `${contactsURL}/`,
+                data: {
+                    FirstName : this.state.FirstName,
+                    LastName: this.state.LastName,
+                    Email : this.state.Email,
+                    PhoneNumber : this.state.PhoneNumber,
+                    StreetAddress : this.state.StreetAddress,
+                    City : this.state.City,
+                    StateName : this.state.StateName,
+                    ZipCode : this.state.ZipCode,
+                    Birthday : this.state.Birthday
+                }
+            })
+            .then(response => {
+                getAllContacts();
+                console.log(response);
+            })
+            .catch(response => {
+                console.log(response);
+                this.setState({errorMessage: 'Oops, something went wrong while creating contact.'})
+            })
+        }
+
+        const clearContactDetails = () => {
+            this.setState({
+                UUID: '',
+                FirstName: '',
+                LastName: '',
+                PhoneNumber: '',
+                Email: '',
+                StreetAddress: '',
+                City: '',
+                StateName: '',
+                ZipCode: '',
+                Birthday: '',
+                selectedContactUUID: ''
+            });
+        }
+
+        const handleNewContactClick = () => {
+            clearContactDetails();
+            setIsEditable(true);
+            setIsAdding(true);
+        }
+
         return (
             <div>
-            <ContactsListPane contacts={this.state.contacts}
+            <Paper>
+            <Button
+                onClick={handleNewContactClick}>
+                <AddIcon/>
+            </Button>
+                <ContactsList contacts={this.state.contacts}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
-                getContactDetails={getContactDetails}/>
+                getContactDetails={getContactDetails}
+                setIsEditable={setIsEditable} setIsDeletable={setIsDeletable}
+                setIsAdding={setIsAdding}/>
+            </Paper>
             <ContactView {...this.state}
                 updateContactDetails={updateContactDetails}
                 saveContactUpdate={saveContactUpdate}
-                deleteContact={deleteContact}/>
+                deleteContact={deleteContact}
+                clearContactDetails={clearContactDetails}
+                setIsEditable={setIsEditable}
+                setIsDeletable={setIsDeletable}
+                setIsAdding={setIsAdding}
+                createContact={createContact}/>
             </div>
         )
     }

@@ -4,9 +4,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from '@material-ui/core/ListItemText';
 
 const ContactsList = (props) => {
-    const {contacts, selectedContactUUID, setSelectedContactUUID, getContactDetails} = props;
+    const {contacts, selectedContactUUID, setSelectedContactUUID, getContactDetails, 
+        setIsEditable, setIsDeletable, setIsAdding} = props;
 
     const handleListClick = (event, uuid) => {
+        setIsEditable(false);
+        setIsDeletable(false);
+        setIsAdding(false);
         setSelectedContactUUID(uuid);
     }
     return(

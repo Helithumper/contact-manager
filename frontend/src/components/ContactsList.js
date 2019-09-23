@@ -4,8 +4,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from '@material-ui/core/ListItemText';
 
 const ContactsList = (props) => {
-    const {contacts, selectedContactUUID, setSelectedContactUUID, getContactDetails, 
-        setIsEditable, setIsDeletable, setIsAdding} = props;
+    const {selectedContactUUID, setSelectedContactUUID, getContactDetails, 
+        setIsEditable, setIsDeletable, setIsAdding, visibleContacts} = props;
 
     const handleListClick = (event, uuid) => {
         setIsEditable(false);
@@ -15,7 +15,7 @@ const ContactsList = (props) => {
     }
     return(
         <List>
-            {contacts.map(value => {
+            {visibleContacts.map(value => {
                 return(
                     <ListItem button 
                         selected={value.UUID === selectedContactUUID}

@@ -4,6 +4,7 @@ import ContactView from '../components/ContactView';
 import { Paper, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import ContactsList from '../components/ContactsList';
+import Search from '../components/Search';
 
 const contactsURL = '/api/v1/contacts';
 const checkLoginURL = '/api/v1/login/check';
@@ -13,6 +14,8 @@ class Home extends React.Component {
         super(props);
         this.state = {
             contacts: [],
+            visibleContacts: [],
+            searchTerm: '',
             UUID: '',
             FirstName: '',
             LastName: '',
@@ -54,7 +57,8 @@ class Home extends React.Component {
         .then(response => {
             console.log(response.data);
             this.setState({
-                contacts: response.data
+                contacts: response.data,
+                visibleContacts: response.data
             });
         })
         .catch(response => {
@@ -220,14 +224,30 @@ class Home extends React.Component {
             setIsAdding(true);
         }
 
+        const setSearchTerm = (term) => {
+            this.setState({searchTerm: term});
+            this.setState({visibleContacts: []}, () => {
+                let tempContacts = [];
+                if(term === '')
+                    tempContacts = [...this.state.contacts];
+                else
+                    this.state.contacts.map(contact => {
+                        if((contact.FirstName + contact.LastName).toUpperCase().search(term.replace(/\s/g, '').toUpperCase()) !== -1)
+                            tempContacts.push(contact);
+                    });
+                this.setState({visibleContacts: [...tempContacts]});
+            });
+        }
+
         return (
             <div>
+            <Search setSearchTerm={setSearchTerm}/>
             <Paper>
             <Button
                 onClick={handleNewContactClick}>
                 <AddIcon/>
             </Button>
-                <ContactsList contacts={this.state.contacts}
+                <ContactsList {...this.state}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}

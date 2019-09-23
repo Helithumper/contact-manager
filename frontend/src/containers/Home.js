@@ -216,6 +216,7 @@ class Home extends React.Component {
                 Birthday: '',
                 selectedContactUUID: ''
             });
+            setSearchTerm('');
         }
 
         const handleNewContactClick = () => {

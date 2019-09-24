@@ -15,6 +15,10 @@ const styles = () => ({
         margin: '50px',
         maxHeight: '20%'
     },
+    contactView: {
+        height: '250px',
+        margin: '50px'
+    },
     headerElements: {
         paddingLeft: '25px'
     }
@@ -258,7 +262,7 @@ class Home extends React.Component {
 
         return (
             <div>
-            <Paper className={classes.root}>
+            <Paper className={classes.contactView}>
             <Search 
                 className={classes.headerElements} 
                 {...this.state} 
@@ -268,12 +272,13 @@ class Home extends React.Component {
                 onClick={handleNewContactClick}>
                 <AddIcon/>
             </Button>
+                {this.state.visibleContacts.length === 0 ? <img src={require('../greekStatue.jpg')} height={'100px'} padding={'100px'}/> : 
                 <ContactsList {...this.state} className={classes.root}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}
                 setIsEditable={setIsEditable} setIsDeletable={setIsDeletable}
-                setIsAdding={setIsAdding}/>
+                setIsAdding={setIsAdding}/>}
             </Paper>
             <Paper className={classes.root}>
                 <ContactView {...this.state} className={classes.root}

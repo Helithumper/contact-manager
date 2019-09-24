@@ -10,6 +10,9 @@ const useStyles = makeStyles({
     container: {
         display: 'flex',
         flexWrap: 'wrap'
+    },
+    deleteButton: {
+        marginTop: '20px'
     }
 });
 
@@ -145,9 +148,9 @@ const ContactView = (props) => {
                 className={classes.root}
                 >{isEditable ? 'Save' : 'Edit' }</Button>}
             </div>
-            <div className={classes.root}>
+            <div className={classes.deleteButton}>
             {isDeletable && !isAdding ? <Button variant='outlined'
-                onClick={handleDeleteClick}
+                onClick={handleDeleteClick} color='secondary'
                 className={classes.root}>Delete</Button> : ''}
             </div>
             <div className={classes.root}>

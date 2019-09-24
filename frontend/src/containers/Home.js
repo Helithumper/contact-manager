@@ -10,11 +10,15 @@ import Search from '../components/Search';
 const contactsURL = '/api/v1/contacts';
 const checkLoginURL = '/api/v1/login/check';
 
-const styles = {
+const styles = () => ({
     root: {
-        padding: '18px'
+        margin: '50px',
+        maxHeight: '20%'
+    },
+    headerElements: {
+        paddingLeft: '25px'
     }
-}
+});
 
 class Home extends React.Component {
     constructor(props) {
@@ -254,9 +258,13 @@ class Home extends React.Component {
 
         return (
             <div>
-            <Search {...this.state} setSearchTerm={setSearchTerm}/>
             <Paper className={classes.root}>
+            <Search 
+                className={classes.headerElements} 
+                {...this.state} 
+                setSearchTerm={setSearchTerm}/>
             <Button
+                className={classes.headerElements}
                 onClick={handleNewContactClick}>
                 <AddIcon/>
             </Button>
@@ -267,15 +275,17 @@ class Home extends React.Component {
                 setIsEditable={setIsEditable} setIsDeletable={setIsDeletable}
                 setIsAdding={setIsAdding}/>
             </Paper>
-            <ContactView {...this.state} className={classes.root}
-                updateContactDetails={updateContactDetails}
-                saveContactUpdate={saveContactUpdate}
-                deleteContact={deleteContact}
-                clearContactDetails={clearContactDetails}
-                setIsEditable={setIsEditable}
-                setIsDeletable={setIsDeletable}
-                setIsAdding={setIsAdding}
-                createContact={createContact}/>
+            <Paper className={classes.root}>
+                <ContactView {...this.state} className={classes.root}
+                    updateContactDetails={updateContactDetails}
+                    saveContactUpdate={saveContactUpdate}
+                    deleteContact={deleteContact}
+                    clearContactDetails={clearContactDetails}
+                    setIsEditable={setIsEditable}
+                    setIsDeletable={setIsDeletable}
+                    setIsAdding={setIsAdding}
+                    createContact={createContact}/>
+            </Paper>
             </div>
         )
     }

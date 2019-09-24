@@ -260,6 +260,10 @@ class Home extends React.Component {
             });
         }
 
+        const handleLogoutClick = () => {
+            document.location = '/logout'
+        }
+
         return (
             <div>
             <Paper className={classes.contactView}>
@@ -272,13 +276,13 @@ class Home extends React.Component {
                 onClick={handleNewContactClick}>
                 <AddIcon/>
             </Button>
-                {this.state.visibleContacts.length === 0 ? <img src={require('../greekStatue.jpg')} height={'100px'} padding={'100px'}/> : 
+            <Button onClick={handleLogoutClick}>Logout</Button>
                 <ContactsList {...this.state} className={classes.root}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}
                 setIsEditable={setIsEditable} setIsDeletable={setIsDeletable}
-                setIsAdding={setIsAdding}/>}
+                setIsAdding={setIsAdding}/>
             </Paper>
             <Paper className={classes.root}>
                 <ContactView {...this.state} className={classes.root}

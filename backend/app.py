@@ -86,10 +86,7 @@ def contacts_endpoint(uuid):
 @app.route('/api/v1/contacts', methods = ['PUT'])
 @users.login_required
 def create_contact():
-    """Create a new contact"""
-    #TODO: Create Contacts
-    return "New Contact"
-
+    return contacts.create_contact(json.loads(request.data), session['UUID'])
 
 def create_app(running_config=config.BaseConfig):
     app.config.from_object(running_config)

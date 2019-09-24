@@ -179,7 +179,7 @@ class Home extends React.Component {
         const createContact = () => {
             axios({
                 method: 'PUT',
-                url: `${contactsURL}/`,
+                url: `${contactsURL}`,
                 data: {
                     FirstName : this.state.FirstName,
                     LastName: this.state.LastName,

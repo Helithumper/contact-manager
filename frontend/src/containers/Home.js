@@ -2,12 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import ContactView from '../components/ContactView';
 import { Paper, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import ContactsList from '../components/ContactsList';
 import Search from '../components/Search';
 
 const contactsURL = '/api/v1/contacts';
 const checkLoginURL = '/api/v1/login/check';
+
+const styles = {
+    root: {
+        padding: '18px'
+    }
+}
 
 class Home extends React.Component {
     constructor(props) {
@@ -30,10 +37,9 @@ class Home extends React.Component {
             selectedContactUUID : '',
             isEditable: false,
             isDeletable: false,
-            isAdding: false
+            isAdding: false,
         }
-    }
-    
+    }  
 
     componentDidMount() {
         // Check if the user is logged in
@@ -69,6 +75,8 @@ class Home extends React.Component {
     }
 
     render() {
+        const {classes} = this.props
+        
         const setSelectedContactUUID = (uuid) => {
             this.setState({
                 selectedContactUUID: uuid
@@ -247,19 +255,19 @@ class Home extends React.Component {
         return (
             <div>
             <Search {...this.state} setSearchTerm={setSearchTerm}/>
-            <Paper>
+            <Paper className={classes.root}>
             <Button
                 onClick={handleNewContactClick}>
                 <AddIcon/>
             </Button>
-                <ContactsList {...this.state}
+                <ContactsList {...this.state} className={classes.root}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}
                 setIsEditable={setIsEditable} setIsDeletable={setIsDeletable}
                 setIsAdding={setIsAdding}/>
             </Paper>
-            <ContactView {...this.state}
+            <ContactView {...this.state} className={classes.root}
                 updateContactDetails={updateContactDetails}
                 saveContactUpdate={saveContactUpdate}
                 deleteContact={deleteContact}
@@ -273,4 +281,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default withStyles(styles)(Home);

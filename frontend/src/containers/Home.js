@@ -76,7 +76,7 @@ class Home extends React.Component {
 
     render() {
         const {classes} = this.props
-        
+
         const setSelectedContactUUID = (uuid) => {
             this.setState({
                 selectedContactUUID: uuid
@@ -187,7 +187,7 @@ class Home extends React.Component {
         const createContact = () => {
             axios({
                 method: 'PUT',
-                url: `${contactsURL}/`,
+                url: `${contactsURL}`,
                 data: {
                     FirstName : this.state.FirstName,
                     LastName: this.state.LastName,

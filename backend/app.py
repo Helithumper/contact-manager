@@ -25,7 +25,7 @@ def logout():
     username = session.pop('username',None)
     session.pop('UUID',None)
     session.pop('isAdmin',None)
-    return redirect('/', code=302)
+    return redirect('https://contacts.ucf.wtf/', code=302)
 
 @app.route('/api/v1/register', methods = ['POST'])
 def register():

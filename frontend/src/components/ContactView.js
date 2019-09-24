@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import { Paper, TextField, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+    root: {
+        flexGrow: 1,
+        margin: '20px',
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap'
+    }
+});
 
 const ContactView = (props) => {
+    const classes = useStyles();
+
     const {FirstName, LastName, Birthday, StreetAddress, City, 
         StateName, PhoneNumber, Email, ZipCode, UUID, updateContactDetails, 
         saveContactUpdate, deleteContact, clearContactDetails, isEditable,
@@ -43,68 +57,104 @@ const ContactView = (props) => {
     }
 
     return(
-        <Paper>
-            <TextField variant='outlined'
-            label='First Name'
-            value={FirstName}
-            disabled={isEditable === false}
-            onChange={handleChange('FirstName')}
-            />
-            <TextField variant='outlined'
-            label='Last Name'
-            value={LastName}
-            disabled={isEditable === false}
-            onChange={handleChange('LastName')}
-            />
-            <TextField variant='outlined'
-            label='Phone Number'
-            value={PhoneNumber}
-            disabled={isEditable === false}
-            onChange={handleChange('PhoneNumber')}
-            />
-            <TextField variant='outlined'
-            label='Email'
-            value={Email}
-            disabled={isEditable === false}
-            onChange={handleChange('Email')}
-            />
-            <TextField variant='outlined'
-            label='Street Address'
-            value={StreetAddress}
-            disabled={isEditable === false}
-            onChange={handleChange('StreetAddress')}
-            />
-            <TextField variant='outlined'
-            label='City'
-            value={City}
-            disabled={isEditable === false}
-            onChange={handleChange('City')}
-            />
-            <TextField variant='outlined'
-            label='State'
-            value={StateName}
-            disabled={isEditable === false}
-            onChange={handleChange('StateName')}
-            />
-            <TextField variant='outlined'
-            label='Zip Code'
-            value={ZipCode}
-            disabled={isEditable === false}
-            onChange={handleChange('ZipCode')}
-            />
-            <TextField variant='outlined'
-            label='Birthday'
-            value={Birthday}
-            disabled={isEditable === false}
-            onChange={handleChange('Birthday')}
-            />
-            {isAdding ? '' : <Button variant='outlined'
-            onClick={handleEditClick}
-            >{isEditable ? 'Save' : 'Edit' }</Button>}
+        <div className={classes.container}>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='First Name'
+                value={FirstName}
+                disabled={isEditable === false}
+                onChange={handleChange('FirstName')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='Last Name'
+                value={LastName}
+                disabled={isEditable === false}
+                onChange={handleChange('LastName')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='Phone Number'
+                value={PhoneNumber}
+                disabled={isEditable === false}
+                onChange={handleChange('PhoneNumber')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='Email'
+                value={Email}
+                disabled={isEditable === false}
+                onChange={handleChange('Email')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='Street Address'
+                value={StreetAddress}
+                disabled={isEditable === false}
+                onChange={handleChange('StreetAddress')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='City'
+                value={City}
+                disabled={isEditable === false}
+                onChange={handleChange('City')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='State'
+                value={StateName}
+                disabled={isEditable === false}
+                onChange={handleChange('StateName')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='Zip Code'
+                value={ZipCode}
+                disabled={isEditable === false}
+                onChange={handleChange('ZipCode')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                <TextField variant='outlined'
+                label='Birthday'
+                value={Birthday}
+                disabled={isEditable === false}
+                onChange={handleChange('Birthday')}
+                className={classes.root}
+                />
+            </div>
+            <div className={classes.root}>
+                {isAdding ? '' : <Button variant='outlined'
+                onClick={handleEditClick}
+                className={classes.root}
+                >{isEditable ? 'Save' : 'Edit' }</Button>}
+            </div>
+            <div className={classes.root}>
             {isDeletable && !isAdding ? <Button variant='outlined'
-                onClick={handleDeleteClick}>Delete</Button> : ''}
-            {isAdding ? <Button variant='outlined' onClick={handleAddClick}>Add</Button> : ''}
-        </Paper>
+                onClick={handleDeleteClick}
+                className={classes.root}>Delete</Button> : ''}
+            </div>
+            <div className={classes.root}>
+                {isAdding ? <Button variant='outlined' onClick={handleAddClick}
+                className={classes.root}>Add</Button> : ''}
+            </div>
+        </div>
     );
 }
 

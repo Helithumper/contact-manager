@@ -128,7 +128,7 @@ class Home extends React.Component {
                 console.log(response.data);
                 this.setState({
                     contacts: response.data
-                });
+                }, () => {search()});
             })
             .catch(response => {
                 this.setState({
@@ -227,13 +227,17 @@ class Home extends React.Component {
 
         const setSearchTerm = (term) => {
             this.setState({searchTerm: term});
+            search();
+        }
+
+        const search = () => {
             this.setState({visibleContacts: []}, () => {
                 let tempContacts = [];
-                if(term === '')
+                if(this.state.searchTerm === '')
                     tempContacts = [...this.state.contacts];
                 else
                     this.state.contacts.map(contact => {
-                        if((contact.FirstName + contact.LastName).toUpperCase().search(term.replace(/\s/g, '').toUpperCase()) !== -1)
+                        if((contact.FirstName + contact.LastName).toUpperCase().search(this.state.searchTerm.replace(/\s/g, '').toUpperCase()) !== -1)
                             tempContacts.push(contact);
                     });
                 this.setState({visibleContacts: [...tempContacts]});

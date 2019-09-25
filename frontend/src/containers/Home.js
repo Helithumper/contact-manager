@@ -2,12 +2,27 @@ import React from 'react';
 import axios from 'axios';
 import ContactView from '../components/ContactView';
 import { Paper, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import AddIcon from '@material-ui/icons/Add';
 import ContactsList from '../components/ContactsList';
 import Search from '../components/Search';
 
 const contactsURL = '/api/v1/contacts';
 const checkLoginURL = '/api/v1/login/check';
+
+const styles = () => ({
+    root: {
+        margin: '50px',
+        maxHeight: '20%'
+    },
+    contactView: {
+        height: '250px',
+        margin: '50px'
+    },
+    headerElements: {
+        paddingLeft: '25px'
+    }
+});
 
 class Home extends React.Component {
     constructor(props) {
@@ -30,10 +45,9 @@ class Home extends React.Component {
             selectedContactUUID : '',
             isEditable: false,
             isDeletable: false,
-            isAdding: false
+            isAdding: false,
         }
-    }
-    
+    }  
 
     componentDidMount() {
         // Check if the user is logged in
@@ -69,6 +83,8 @@ class Home extends React.Component {
     }
 
     render() {
+        const {classes} = this.props
+
         const setSelectedContactUUID = (uuid) => {
             this.setState({
                 selectedContactUUID: uuid
@@ -128,7 +144,7 @@ class Home extends React.Component {
                 console.log(response.data);
                 this.setState({
                     contacts: response.data
-                });
+                }, () => {search()});
             })
             .catch(response => {
                 this.setState({
@@ -227,46 +243,61 @@ class Home extends React.Component {
 
         const setSearchTerm = (term) => {
             this.setState({searchTerm: term});
+            search();
+        }
+
+        const search = () => {
             this.setState({visibleContacts: []}, () => {
                 let tempContacts = [];
-                if(term === '')
+                if(this.state.searchTerm === '')
                     tempContacts = [...this.state.contacts];
                 else
                     this.state.contacts.map(contact => {
-                        if((contact.FirstName + contact.LastName).toUpperCase().search(term.replace(/\s/g, '').toUpperCase()) !== -1)
+                        if((contact.FirstName + contact.LastName).toUpperCase().search(this.state.searchTerm.replace(/\s/g, '').toUpperCase()) !== -1)
                             tempContacts.push(contact);
                     });
                 this.setState({visibleContacts: [...tempContacts]});
             });
         }
 
+        const handleLogoutClick = () => {
+            document.location = '/logout'
+        }
+
         return (
             <div>
-            <Search {...this.state} setSearchTerm={setSearchTerm}/>
-            <Paper>
+            <Paper className={classes.contactView}>
+            <Search 
+                className={classes.headerElements} 
+                {...this.state} 
+                setSearchTerm={setSearchTerm}/>
             <Button
+                className={classes.headerElements}
                 onClick={handleNewContactClick}>
                 <AddIcon/>
             </Button>
-                <ContactsList {...this.state}
+            <Button onClick={handleLogoutClick}>Logout</Button>
+                <ContactsList {...this.state} className={classes.root}
                 selectedContactUUID={this.state.selectedContactUUID}
                 setSelectedContactUUID={setSelectedContactUUID}
                 getContactDetails={getContactDetails}
                 setIsEditable={setIsEditable} setIsDeletable={setIsDeletable}
                 setIsAdding={setIsAdding}/>
             </Paper>
-            <ContactView {...this.state}
-                updateContactDetails={updateContactDetails}
-                saveContactUpdate={saveContactUpdate}
-                deleteContact={deleteContact}
-                clearContactDetails={clearContactDetails}
-                setIsEditable={setIsEditable}
-                setIsDeletable={setIsDeletable}
-                setIsAdding={setIsAdding}
-                createContact={createContact}/>
+            <Paper className={classes.root}>
+                <ContactView {...this.state} className={classes.root}
+                    updateContactDetails={updateContactDetails}
+                    saveContactUpdate={saveContactUpdate}
+                    deleteContact={deleteContact}
+                    clearContactDetails={clearContactDetails}
+                    setIsEditable={setIsEditable}
+                    setIsDeletable={setIsDeletable}
+                    setIsAdding={setIsAdding}
+                    createContact={createContact}/>
+            </Paper>
             </div>
         )
     }
 }
 
-export default Home;
+export default withStyles(styles)(Home);

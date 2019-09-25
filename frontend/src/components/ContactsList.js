@@ -14,7 +14,7 @@ const ContactsList = (props) => {
         setSelectedContactUUID(uuid);
     }
     return(
-        <List>
+        <List style={{overflow: 'auto', maxHeight: '180px'}}>
             {visibleContacts.map(value => {
                 return(
                     <ListItem button 

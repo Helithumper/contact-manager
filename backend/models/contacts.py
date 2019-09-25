@@ -121,3 +121,22 @@ def update(contactUUID, userUUID, changes):
     db.commit()
 
     return make_response('success', 200)
+
+def create_contact(request, UUID):
+    x = []
+    for field in request.keys():
+        x.append(request[field])
+    x.append(str(uuid.uuid4()))
+
+    db = get_db()
+
+    with db.cursor() as cursor:
+        cursor.execute("""SELECT id FROM Users WHERE Users.UUID=%s""",(UUID))
+        user = cursor.fetchone()
+        userID = user['id']
+    with db.cursor() as cursor:
+        cursor.execute(f"INSERT INTO Contacts (FirstName, LastName, Email, PhoneNumber, StreetAddress, City, StateName, ZipCode, Birthday, UUID, UserID) VALUES ('{x[0]}', '{x[1]}', '{x[2]}', '{x[3]}', '{x[4]}', '{x[5]}', '{x[6]}', '{x[7]}', '{x[8]}', '{x[9]}', {userID})")
+    db.commit()
+
+
+    return make_response('success', 200)
